@@ -1,7 +1,7 @@
-package com.myrefrigerator.myrefrigerator.config.auth;
+package com.myrefrigerator.myrefrigerator.config.oauth2Config;
 
-import com.myrefrigerator.myrefrigerator.config.auth.dto.OAuthAttributes;
-import com.myrefrigerator.myrefrigerator.config.auth.dto.SessionUser;
+import com.myrefrigerator.myrefrigerator.config.oauth2Config.oauth2Dto.OAuthAttributes;
+import com.myrefrigerator.myrefrigerator.config.oauth2Config.oauth2Dto.SessionUser;
 import com.myrefrigerator.myrefrigerator.domain.user.User;
 import com.myrefrigerator.myrefrigerator.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;

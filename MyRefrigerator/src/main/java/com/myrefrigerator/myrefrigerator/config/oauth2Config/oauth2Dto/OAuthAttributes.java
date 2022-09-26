@@ -1,13 +1,11 @@
-package com.myrefrigerator.myrefrigerator.config.auth.dto;
+package com.myrefrigerator.myrefrigerator.config.oauth2Config.oauth2Dto;
 
 import com.myrefrigerator.myrefrigerator.domain.user.User;
 import com.myrefrigerator.myrefrigerator.domain.user.userRole.UserRole;
 import com.myrefrigerator.myrefrigerator.domain.user.userTImeEntity.UserTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter

@@ -1,4 +1,4 @@
-package com.myrefrigerator.myrefrigerator.config.auth;
+package com.myrefrigerator.myrefrigerator.config.oauth2Config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

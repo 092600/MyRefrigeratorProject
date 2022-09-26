@@ -1,6 +1,6 @@
-package com.myrefrigerator.myrefrigerator.config.auth;
+package com.myrefrigerator.myrefrigerator.config.oauth2Config;
 
-import com.myrefrigerator.myrefrigerator.config.auth.dto.SessionUser;
+import com.myrefrigerator.myrefrigerator.config.oauth2Config.oauth2Dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.myrefrigerator.myrefrigerator.config.auth.dto;
+package com.myrefrigerator.myrefrigerator.config.oauth2Config.oauth2Dto;
 
 import com.myrefrigerator.myrefrigerator.domain.user.User;
 import lombok.Getter;
