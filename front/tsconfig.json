@@ -1,0 +1,9 @@
+// prettier-ignore
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",     
+  "compilerOptions": {
+      /* 아래 코드 넣어놓기 */
+      "typeRoots" : ["./@types", "./node_modules/@types"],
+      "skipLibCheck": true                                 
+  }
+}
