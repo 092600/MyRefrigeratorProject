@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useCallback} from 'react'
 import {StyleSheet, Platform, ImageBackground} from 'react-native'
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation, useRoute} from '@react-navigation/native'
 // prettier-ignore
 import {SafeAreaView, View, Text, TextInput, TouchableView}
 from '../theme'
@@ -14,7 +13,10 @@ import {MaterialCommunityIcon as Icon} from '../theme'
 import {Colors} from 'react-native-paper'
 
 export default function Login() {
-  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson())
+  const route = useRoute()
+  const route_json = JSON.stringify(route, null, 2)
+  const email = JSON.parse(route_json).params.user_email
+
   const [password, setPassword] = useState<string>()
   const focus = useAutoFocus()
   const navigation = useNavigation()
@@ -22,12 +24,11 @@ export default function Login() {
     () => navigation.navigate('HomeNavigator'),
     [],
   )
-  const goFindId = useCallback(() => navigation.navigate('SignUp'), [])
-  const goFindPW = useCallback(() => navigation.navigate('SignUp'), [])
+  // const route = useRoute()
+  const goFindId = useCallback(() => navigation.navigate('FindID'), [])
+  const goFindPW = useCallback(() => navigation.navigate('FindPW'), [])
   const goFirst = useCallback(() => navigation.navigate('Login0'), [])
-  const image1 = {uri: '../assets/images/kakao.jpeg'}
-  // const image2 = { uri: "../assets/images/google.jpeg" };
-  // const image3 = { uri: "https://reactjs.org/logo-og.png" };
+
   return (
     <SafeAreaView>
       <View style={[styles.view]}>
@@ -42,19 +43,14 @@ export default function Login() {
             />
           </View>
           <Text style={styles.text_header}>나만의 냉장고</Text>
-
           {/* email input */}
           <View style={[styles.textView]}>
             <View style={[styles.textInputView]}>
               <TextInput
-                onFocus={focus}
                 style={[styles.textInput]}
-                value={person.email}
-                onChangeText={email =>
-                  setPerson(person => ({...person, email}))
-                }
-                placeholder="enter your email"
-                placeholderTextColor={'grey'}
+                placeholder={email}
+                placeholderTextColor="grey"
+                editable={false}
               />
             </View>
           </View>
@@ -73,15 +69,37 @@ export default function Login() {
             />
             {/* </View> */}
           </View>
-
           {/* 로그인 버튼 */}
           <TouchableView
             notification
             style={[styles.touchableView]}
-            onPress={goHomeNavigator}>
+            onPress={() => {
+              // API
+              fetch('/api/v4/accounts/login', {
+                method: 'POST',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  email: email,
+                  password: password,
+                }),
+              })
+                .then(response => response.json())
+                .then(response => {
+                  // do
+                  console.log(response)
+                })
+                .catch(function (error) {
+                  // do
+                })
+
+              // 메인으로 이동
+              // navigation.navigate('Login0')
+            }}>
             <Text style={[styles.text]}>로 그 인</Text>
           </TouchableView>
-
           {/* 아이디/비밀번호 찾기 */}
           <View style={[styles.view_back]}>
             {/* 아이디 찾기 */}
@@ -99,7 +117,6 @@ export default function Login() {
               비밀번호 찾기
             </Text>
           </View>
-
           {/* 소셜 로그인 */}
           <View border style={[styles.view_social]}>
             <Text style={[styles.text_social]}> 간편하게 시작하기</Text>
@@ -151,10 +168,10 @@ const styles = StyleSheet.create({
   // '나만의 냉장고' Text
   text_header: {
     fontSize: Platform.OS === 'ios' ? 30 : 28,
-    // fontWeight: '900',
     color: '#70707095',
     opacity: Platform.OS === 'ios' ? 70 : 90,
     top: '-5%',
+    // fontWeight: '900',
     // top: Platform.OS === 'ios' ? '-15%' : '-10%',
     // fontFamily: 'S-CoreDream-6Bold',
     // fontFamily: Platform.OS === 'android' ? 'S-CoreDream-7ExtraBold' : default,
@@ -238,6 +255,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'grey',
     left: '17%',
+    // alignSelf: 'center',
     top: -11,
     width: '38%',
     height: 20,
