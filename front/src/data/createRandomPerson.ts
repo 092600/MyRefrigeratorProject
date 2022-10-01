@@ -16,7 +16,7 @@ export const createRandomPerson = (): IPerson => {
     counts: {
       comment: U.random(10, 100),
       retweet: U.random(10, 100),
-      heart: U.random(100, 1000)
-    }
+      heart: U.random(100, 1000),
+    },
   }
 }

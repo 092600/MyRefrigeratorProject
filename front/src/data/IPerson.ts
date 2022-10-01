@@ -1,15 +1,12 @@
 export type IPerson = {
-  id: string
-  createdDate: Date
-  modifiedDate: Date
-  name: string
+  id: number
+  age_range: string
+  birthday: string
   email: string
-  avatar: string
-  image: string
-  comments: string
-  counts: {
-    comment: number
-    retweet: number
-    heart: number
-  }
+  gender: string
+  is_social: number
+  name: string
+  password: string
+  picture: string
+  role: string
 }

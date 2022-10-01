@@ -1,6 +1,6 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useCallback} from 'react'
 import {
@@ -19,16 +19,22 @@ import {useAutoFocus, AutoFocusProvider} from '../contexts'
 import {MaterialCommunityIcon as Icon} from '../theme'
 
 export default function Login() {
-  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson())
+  const [Email, setEmail] = useState<string>('')
+  // const [person, setPerson] = useState()
   const focus = useAutoFocus()
+  // Navigation (이전버튼(WalkThrought)/아이디찾기/비밀번호찾기/로그인)
   const navigation = useNavigation()
-  const goHomeNavigator = useCallback(
-    () => navigation.navigate('HomeNavigator'),
+  const goFindId = useCallback(() => navigation.navigate('FindID'), [])
+  const goFindPW = useCallback(() => navigation.navigate('FindPW'), [])
+  const goWT = useCallback(() => navigation.navigate('WalkThrough'), [])
+  const goLogin = useCallback(
+    () => navigation.navigate('Login', {user_email: Email}),
     [],
   )
-  const goFindId = useCallback(() => navigation.navigate('SignUp'), [])
-  const goFindPW = useCallback(() => navigation.navigate('SignUp'), [])
-  const goWT = useCallback(() => navigation.navigate('WalkThrough'), [])
+
+  // 이메일 확인용 정규식
+  const reg_email =
+    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
 
   return (
     <SafeAreaView>
@@ -57,8 +63,8 @@ export default function Login() {
             <TextInput
               onFocus={focus}
               style={[styles.textInput]}
-              value={person.email}
-              onChangeText={email => setPerson(person => ({...person, email}))}
+              value={Email}
+              onChangeText={setEmail}
               placeholder="enter your email"
               placeholderTextColor={'grey'}
             />
@@ -69,7 +75,18 @@ export default function Login() {
           <TouchableOpacity
             style={[styles.confirmImage]}
             onPress={() => {
-              Alert.alert('hi')
+              // 1. 이메일이 공백일 때
+              if (Email === '') {
+                Alert.alert('이메일을 입력해주세요.')
+                // 2. 이메일 형식이 아닐때
+              } else if (!reg_email.test(Email)) {
+                Alert.alert('이메일 형식이 아닙니다.')
+                // 3. 조건 충족 후 로그인/회원가입 가르기
+                // fetch() 이후 결과로 로그인/회원가입
+              } else {
+                navigation.navigate('Login', {user_email: Email})
+              }
+              // goLogin()
             }}>
             <ImageBackground
               source={require('../assets/images/next.png')}
@@ -180,6 +197,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: Platform.OS === 'ios' ? 10 : 5,
     borderColor: '#F1F1F5',
+    color: 'black',
   },
   // 이메일 View 1
   textView: {
