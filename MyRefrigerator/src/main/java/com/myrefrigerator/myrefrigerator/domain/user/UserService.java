@@ -89,8 +89,8 @@ public class UserService {
 
         message.setTo(email);
         message.setFrom(sender);
-        message.setSubject("누누강 아이디 찾기 인증번호 발급");
-        message.setText("안녕하세요. 누누강(누가 누가 강태공)에서 아이디 찾기를 위한 인증번호를 발급해드렸습니다.\n" +
+        message.setSubject("나의 냉장고 아이디 찾기 인증번호 발급");
+        message.setText("안녕하세요. 나의 냉장고에서 아이디 찾기를 위한 인증번호를 발급해드렸습니다.\n" +
                 "회원님의 아이디 찾기를 위한 인증번호는 "+randomNumber +"입니다.\n" +
                 "해당 페이지에서 인증번호를 입력하고 아이디를 찾아주세요 !");
         mailSender.send(message);
@@ -104,8 +104,8 @@ public class UserService {
 
         message.setTo(email);
         message.setFrom(sender);
-        message.setSubject("누누강 비밀번호 찾기 인증번호 발급");
-        message.setText("안녕하세요. 누누강(누가 누가 강태공)에서 비밀번호 찾기를 위한 인증번호를 발급해드렸습니다.\n" +
+        message.setSubject("나의 냉장고 비밀번호 찾기 인증번호 발급");
+        message.setText("안녕하세요. 나의 냉장고에서 비밀번호 찾기를 위한 인증번호를 발급해드렸습니다.\n" +
                 "회원님의 비밀번호 찾기를 위한 인증번호는 "+randomNumber +"입니다.\n" +
                 "해당 페이지에서 인증번호를 입력해주세요");
         mailSender.send(message);
@@ -134,7 +134,7 @@ public class UserService {
         try {
             message.setTo(user.getEmail());
             message.setFrom(sender);
-            message.setSubject("누누강 임시비밀번호 발급 메일");
+            message.setSubject("나의 냉장고 임시비밀번호 발급 메일");
             message.setText("안녕하세요 "+user.getName()+"님\n" +
                     "회원님의 임시비밀번호 발급을 위한 인증번호는 "+ tempPassword +"입니다.");
             mailSender.send(message);

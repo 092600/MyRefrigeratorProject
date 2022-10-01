@@ -23,6 +23,7 @@ public class SecurityUserService implements UserDetailsService {
     // 어디로 리턴되는가 .. > 시큐리티 session(내부 Authentication(내부 UserDetails))
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        System.out.println(email);
         User user = userService.findByUserEmail(email);
         if (user != null){
             httpSession.setAttribute("user", new SessionUser(user));
