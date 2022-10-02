@@ -1,23 +1,40 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useCallback} from 'react'
-import {StyleSheet, Platform, ImageBackground} from 'react-native'
-import {useNavigation} from '@react-navigation/native'
+import {StyleSheet, Platform, ImageBackground, Alert} from 'react-native'
+import {useNavigation, useRoute} from '@react-navigation/native'
 // prettier-ignore
 import {SafeAreaView, View, Text, TextInput}
 from '../theme'
-import * as D from '../data'
+// import * as D from '../data'
 import {useAutoFocus, AutoFocusProvider} from '../contexts'
 import {MaterialCommunityIcon as Icon} from '../theme'
 
 export default function SignUp() {
-  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson())
+  // email 가져오기
+  const route = useRoute()
+  const route_json = JSON.stringify(route, null, 2)
+  const email = JSON.parse(route_json).params.user_email
+
   const [password, setPassword] = useState<string>('')
-  const [confirmPassword, setConfirmPassword] = useState<string>(password)
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
+
+  // 일치 검사
+  const [confirm, setConfirm] = useState(false)
+
   const focus = useAutoFocus()
   const navigation = useNavigation()
-  const goFirst = useCallback(() => navigation.navigate('Login'), [])
+  const goFirst = useCallback(() => navigation.navigate('Login0'), []) 
+
+  const goNextSignUp = () => {
+    // email, password 가지고 nextSignup 이동
+    if (password === confirmPassword) {
+      navigation.navigate('SignUp2', {user_email: email, password: password}), []
+    } else {
+      Alert.alert('비밀번호가 일치하지 않습니다.')
+    }
+  }
 
   return (
     <SafeAreaView>
@@ -49,14 +66,10 @@ export default function SignUp() {
             <Text style={[styles.text]}>이 메 일</Text>
             <View style={[styles.textInputView]}>
               <TextInput
-                onFocus={focus}
                 style={[styles.textInput]}
-                value={person.email}
-                onChangeText={email =>
-                  setPerson(person => ({...person, email}))
-                }
-                placeholder="enter your email"
-                placeholderTextColor={'grey'}
+                placeholder={email}
+                placeholderTextColor="grey"
+                editable={false}
               />
               <View style={[styles.confirmImage]}>
                 <ImageBackground
@@ -75,13 +88,16 @@ export default function SignUp() {
               <TextInput
                 secureTextEntry
                 onFocus={focus}
-                style={[styles.textInput]}
+                style={[styles.textInput, styles_confirm(confirm).textInputFocus]}
                 value={password}
                 onChangeText={setPassword}
-                // placeholder="enter your password"
-                // placeholderTextColor={'grey'}
+                placeholder="비밀번호를 입력해주세요."
+                placeholderTextColor={'grey'}
+                onEndEditing={() => {
+                  setConfirm(true)
+                }}
               />
-              <View style={[styles.confirmImage]}>
+              <View style={[styles.confirmImage, styles_confirm(confirm).confirmImage]}>
                 <ImageBackground
                   source={require('../assets/images/confirm.png')}
                   resizeMode="contain"
@@ -93,36 +109,32 @@ export default function SignUp() {
 
           {/* 4. pw confirm */}
           <View style={[styles.textView, {top: '-4%'}]}>
-            <Text style={[styles.text, {top: '-110%'}]}>
+            <Text style={[styles.text,styles_confirm(confirm).text, {top: '-110%'}]}>
               {'\n'} 비밀번호{'\n'}   재입력
             </Text>
-            <View style={[styles.textInputView]}>
+            <View style={[styles.textInputView, styles_confirm(confirm).textInputView]}>
               <TextInput
                 secureTextEntry
                 onFocus={focus}
-                style={[styles.textInput]}
+                style={[styles.textInput, styles.textInputFocus]}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
-                // placeholder="confirm password"
-                // placeholderTextColor={'grey'}
+                onEndEditing={goNextSignUp}
+                placeholder="비밀번호를 다시 입력해주세요."
+                placeholderTextColor={'grey'}
               />
-              <View style={[styles.confirmImage]}>
+              <View style={[styles.confirmImage, styles_confirm(confirm).confirmImage]}>
                 <ImageBackground
-                  source={require('../assets/images/confirm.png')}
+                  source={password === confirmPassword ? require('../assets/images/confirm.png') : require('../assets/images/cancle.png')}
                   resizeMode="contain"
-                  style={styles.image}
+                  style={
+                    [styles.image, styles_confirm(confirmPassword != '').confirmImage]
+                  }
                 />
               </View>
             </View>
           </View>
 
-          {/* 5. SingUp */}
-          {/* <TouchableView
-            notification
-            style={[styles.touchableView]}
-            onPress={goHomeNavigator}>
-            <Text style={[styles.text_next]}>다음</Text>
-          </TouchableView> */}
         </AutoFocusProvider>
       </View>
     </SafeAreaView>
@@ -240,11 +252,36 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 
-  // ----- 2. 사진 -----
+  // ----- 2. 이메일 -----
+  // 컨펌 이미지
   confirmImage: {
     top: '-100%',
     width: '23%',
     backgroundColor: 'white',
     left: '105%',
+  },
+  // ----- 3. 비밀번호 -----
+  textInputFocus: {
+    borderColor: '#A2D9D6',
+  },
+  textInputUnvi: {
+    opacity: 0,
   }
 })
+
+const styles_confirm = (confirm: boolean) => StyleSheet.create({
+  // 컨펌 이미지
+  confirmImage: {
+    opacity: confirm === true ? 1 : 0,
+  },
+  textInputView: {
+    opacity: confirm === true ? 1 : 0,
+  },
+  text: {
+    opacity: confirm === true ? 1 : 0,
+  },
+  textInputFocus: {
+    borderColor: confirm === true ? 'grey' : '#A2D9D6',
+  },
+})
+

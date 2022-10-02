@@ -4,7 +4,7 @@ import {Colors} from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Login from './Login'
 import SignUp from './SignUp'
-import LoginNavigator from './LoginNavigator'
+// import LoginNavigator from './LoginNavigator'
 import type {RouteProp, ParamListBase} from '@react-navigation/native'
 
 type TabBarIconProps = {focused: boolean; color: string; size: number}
@@ -34,11 +34,11 @@ export default function MainNavigator() {
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="Login" component={Login} />
       <Tab.Screen name="SignUp" component={SignUp} />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="LoginNavigator"
         component={LoginNavigator}
         options={{tabBarLabel: 'Home', tabBarBadge: 3}}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }
