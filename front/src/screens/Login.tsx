@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -10,7 +11,7 @@ from '../theme'
 import * as D from '../data'
 import {useAutoFocus, AutoFocusProvider} from '../contexts'
 import {MaterialCommunityIcon as Icon} from '../theme'
-import {Colors} from 'react-native-paper'
+import getAPI from '../components/getAPI'
 
 export default function Login() {
   const route = useRoute()
@@ -27,6 +28,10 @@ export default function Login() {
   // const route = useRoute()
   const goFindId = useCallback(() => navigation.navigate('FindID'), [])
   const goFindPW = useCallback(() => navigation.navigate('FindPW'), [])
+  const goSignup = useCallback(
+    () => navigation.navigate('SignUp', {user_email: email}),
+    [],
+  )
   const goFirst = useCallback(() => navigation.navigate('Login0'), [])
 
   return (
@@ -75,10 +80,11 @@ export default function Login() {
             style={[styles.touchableView]}
             onPress={() => {
               // API
-              fetch('/api/v4/accounts/login', {
+              const apiHost = getAPI()
+              fetch(apiHost + '/api/v4/accounts/login', {
                 method: 'POST',
                 headers: {
-                  Accept: 'application/json',
+                  'Accept': 'application/json',
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -88,22 +94,21 @@ export default function Login() {
               })
                 .then(response => response.json())
                 .then(response => {
-                  // do
                   console.log(response)
                 })
                 .catch(function (error) {
-                  // do
+                  console.log(error)
                 })
 
               // 메인으로 이동
-              // navigation.navigate('Login0')
+              // navigation.navigate('HomeNavigator')
             }}>
             <Text style={[styles.text]}>로 그 인</Text>
           </TouchableView>
           {/* 아이디/비밀번호 찾기 */}
           <View style={[styles.view_back]}>
             {/* 아이디 찾기 */}
-            <Text style={[styles.text_underline]} onPress={goFindId}>
+            <Text style={[styles.text_underline]} onPress={goSignup}>
               아이디 찾기
             </Text>
 

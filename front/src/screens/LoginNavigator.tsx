@@ -10,7 +10,8 @@ import WalkThrough from './WalkThrough'
 import FindID from './FindID'
 import FindPW from './FindPW'
 import HomeNavigator from './HomeNavigator'
-import type {RouteProp, ParamListBase} from '@react-navigation/native'
+import SignUp2 from './SignUp2'
+// import type {RouteProp, ParamListBase} from '@react-navigation/native'
 
 const Stack = createStackNavigator()
 
@@ -39,6 +40,7 @@ export default function MainNavigator() {
       <Stack.Screen name="FindID" component={FindID} />
       <Stack.Screen name="FindPW" component={FindPW} />
       <Stack.Screen name="HomeNavigator" component={HomeNavigator} />
+      <Stack.Screen name="SignUp2" component={SignUp2} />
     </Stack.Navigator>
   )
 }

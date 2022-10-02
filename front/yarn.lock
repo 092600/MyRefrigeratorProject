@@ -1558,6 +1558,13 @@
     "prompts" "^2.4.0"
     "semver" "^6.3.0"
 
+"@react-native-community/datetimepicker@^6.5.0", "@react-native-community/datetimepicker@>=3.0.0":
+  "integrity" "sha512-s0gxsz/l3Ln2+dZV+4RZI94+A+JO8ywrjC17cGK8ozM+VLXHAUARgGLGc+vqNJkxzZzGUqnkO6/kypQGoK7t/A=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-6.5.0.tgz"
+  "version" "6.5.0"
+  dependencies:
+    "invariant" "^2.2.4"
+
 "@react-native-community/eslint-config@^2.0.0":
   "integrity" "sha512-vHaMMfvMp9BWCQQ0lNIXibOJTcXIbYUQ8dSUsMOsrXgVkeVQJj88OwrKS00rQyqwMaC4/a6HuDiFzYUkGKOpVg=="
   "resolved" "https://registry.npmjs.org/@react-native-community/eslint-config/-/eslint-config-2.0.0.tgz"
@@ -6376,6 +6383,13 @@
     "prop-types" "^15.6.2"
     "react-native-iphone-x-helper" "^1.0.3"
 
+"react-native-modal-datetime-picker@^14.0.0":
+  "integrity" "sha512-orI0BMgX9uooSZWYIILmMaZXqi8Ebr0vqsLUFL03zORpv9NvkBlLMQ8dZVdDxWUc1Lbx/N5DJskC16AOypPy8Q=="
+  "resolved" "https://registry.npmjs.org/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-14.0.0.tgz"
+  "version" "14.0.0"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-native-paper@^4.12.4":
   "integrity" "sha512-NMfLSIN0Ql/KCTSimhgzbEOgz371dqDAgChnp2VE4H7n1B0Pwy0bzPKmY/T8trVvEdmJRXrbXAusaFq8elDXNg=="
   "resolved" "https://registry.npmjs.org/react-native-paper/-/react-native-paper-4.12.4.tgz"
@@ -6419,7 +6433,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.57", "react-native@0.70.1":
+"react-native@*", "react-native@>=0.42.0", "react-native@>=0.48.4", "react-native@>=0.57", "react-native@>=0.65.0", "react-native@0.70.1":
   "integrity" "sha512-AUh4NZLFdvyjSiYWCtTROCrC7loxeeZ/TzBnkZwp3kb9XmMu7/kzvWn2c5sEMnzW7X/0JSul8jXexGVdpnCoSA=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.1.tgz"
   "version" "0.70.1"

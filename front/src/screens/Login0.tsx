@@ -27,8 +27,12 @@ export default function Login() {
   const goFindId = useCallback(() => navigation.navigate('FindID'), [])
   const goFindPW = useCallback(() => navigation.navigate('FindPW'), [])
   const goWT = useCallback(() => navigation.navigate('WalkThrough'), [])
-  const goLogin = useCallback(
-    () => navigation.navigate('Login', {user_email: Email}),
+  // const goLogin = useCallback(
+  //   () => navigation.navigate('Login', {user_email: Email}),
+  //   [],
+  // )
+  const goSignup = useCallback(
+    () => navigation.navigate('SignUp', {user_email: Email}),
     [],
   )
 
@@ -86,7 +90,6 @@ export default function Login() {
               } else {
                 navigation.navigate('Login', {user_email: Email})
               }
-              // goLogin()
             }}>
             <ImageBackground
               source={require('../assets/images/next.png')}
