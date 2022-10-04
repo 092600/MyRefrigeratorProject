@@ -1,7 +1,6 @@
 package com.myrefrigerator.myrefrigerator.domain.user;
 
 import com.myrefrigerator.myrefrigerator.domain.user.userRole.UserRole;
-import com.myrefrigerator.myrefrigerator.domain.user.userTImeEntity.UserTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

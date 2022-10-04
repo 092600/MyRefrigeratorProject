@@ -2,6 +2,7 @@ package com.myrefrigerator.myrefrigerator.config.securityConfig;
 
 import com.myrefrigerator.myrefrigerator.config.oauth2Config.CustomOAuth2UserService;
 import com.myrefrigerator.myrefrigerator.config.securityConfig.accountsSecurity.CustomLoginFailureHandler;
+import com.myrefrigerator.myrefrigerator.config.securityConfig.accountsSecurity.CustomLoginSuccessHandler;
 import com.myrefrigerator.myrefrigerator.domain.user.security.SecurityUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final SecurityUserService securityUserService;
+
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     private final CustomLoginFailureHandler customLoginFailureHandler;
 
@@ -60,8 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .loginProcessingUrl("/api/v4/accounts/login")
+                .successHandler(customLoginSuccessHandler)
                 .failureHandler(customLoginFailureHandler)
-                .defaultSuccessUrl("/")
             .and()
                 .oauth2Login()
                 .loginPage("/accounts/login")

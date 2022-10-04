@@ -3,7 +3,6 @@ package com.myrefrigerator.myrefrigerator.controllers;
 import com.myrefrigerator.myrefrigerator.domain.user.User;
 import com.myrefrigerator.myrefrigerator.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
