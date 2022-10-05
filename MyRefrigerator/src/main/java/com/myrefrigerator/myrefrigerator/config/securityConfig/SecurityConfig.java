@@ -57,14 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-            .and()
-                .formLogin()
-                .loginPage("/accounts/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .loginProcessingUrl("/api/v4/accounts/login")
-                .successHandler(customLoginSuccessHandler)
-                .failureHandler(customLoginFailureHandler)
+            // .and()
+                // .formLogin()
+                // .loginPage("/accounts/login")
+                // .usernameParameter("email")
+                // .passwordParameter("password")
+                // .loginProcessingUrl("/api/v4/accounts/login")
+                // .successHandler(customLoginSuccessHandler)
+                // .failureHandler(customLoginFailureHandler)
+                // .defaultSuccessUrl("http://localhost:3000/", true)
             .and()
                 .oauth2Login()
                 .loginPage("/accounts/login")
@@ -72,9 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/")
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
-
-        // js, css, image 등의 파일
-
     }
 
     public void configure(WebSecurity web) throws Exception {

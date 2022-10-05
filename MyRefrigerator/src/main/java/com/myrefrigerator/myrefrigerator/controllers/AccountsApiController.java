@@ -14,7 +14,19 @@ import java.util.Arrays;
 public class AccountsApiController {
     private final UserService userService;
 
-
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public boolean login(@RequestBody User user){
+        if (userService.isExistUserEmail(user.getEmail())){
+            User findUser = userService.findByUserEmail(user.getEmail());
+            if (userService.stringMatcher(user, findUser)){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -55,22 +67,33 @@ public class AccountsApiController {
     public ArrayList<String> findEmail(@RequestBody User user,
                                        ArrayList<String> certifiationList){
         String email = user.getEmail();
+        System.out.println(user.getName());
 
-        if (userService.isExistUserEmail(email)){
-            try {
-                int certificationNumber = userService.certificateUserForUserEmail(email);
-                certifiationList = new ArrayList<String>(
-                        Arrays.asList(String.valueOf(userService.isExistUserEmail(email)), String.valueOf(certificationNumber)));
-            } catch (Exception e){
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+        if (userService.isExistUserEmail(email)) {
+            User findUser = userService.findByUserEmail(email);
+            if (findUser.getName().equals(user.getName())) {
+                try {
+                    int certificationNumber = userService.certificateUserForUserEmail(email);
+                    certifiationList = new ArrayList<String>(
+                            Arrays.asList(String.valueOf(userService.isExistUserEmail(email)), String.valueOf(certificationNumber)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
 
+                    certifiationList = new ArrayList<String>(
+                            Arrays.asList(String.valueOf(false), String.valueOf(0)));
+                } finally {
+                    return certifiationList;
+                }
+            } else {
                 certifiationList = new ArrayList<String>(
                         Arrays.asList(String.valueOf(false), String.valueOf(0)));
-            } finally {
+
                 return certifiationList;
             }
         } else {
+            certifiationList = new ArrayList<String>(
+                    Arrays.asList(String.valueOf(false), String.valueOf(0)));
             return certifiationList;
         }
     }

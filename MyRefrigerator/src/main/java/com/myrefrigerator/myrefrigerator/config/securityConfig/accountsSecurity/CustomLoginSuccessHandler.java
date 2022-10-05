@@ -14,6 +14,7 @@ import java.io.IOException;
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
-        response.sendRedirect("/");
+//        response.sendRedirect(,"http://localhost:3000/");
+//        getRedirectStrategy().sendRedirect(request, response ,"http://localhost:3000/");
     }
 }
