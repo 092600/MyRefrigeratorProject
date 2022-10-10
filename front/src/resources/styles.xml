@@ -1,0 +1,3 @@
+<style name="DatePickerTheme" parent="DatePickerBaseTheme">
+    <item name="android:colorControlNormal">#dd00ff</item>
+</style>

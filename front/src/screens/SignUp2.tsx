@@ -1,46 +1,47 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import React, { useState, useCallback } from 'react'
-import { StyleSheet, Platform, ImageBackground, Alert, Button } from 'react-native'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { SafeAreaView, View, Text, TextInput } from '../theme'
-import { useAutoFocus, AutoFocusProvider } from '../contexts'
-import { MaterialCommunityIcon as Icon } from '../theme'
-import getAPI from '../components/getAPI'
-import DateTimePicker from '../components/DateTimePicker'
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, Platform, ImageBackground, Alert, Button } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { SafeAreaView, View, Text, TextInput } from '../theme';
+import { useAutoFocus, AutoFocusProvider } from '../contexts';
+import { MaterialCommunityIcon as Icon } from '../theme';
+import getAPI from '../components/getAPI';
+// import { Picker } from '@react-native-picker/picker';
+// import { Picker } from '@react-native-picker/picker';
+// import {Picker} from '@react-native-picker/picker';
+// import { Picker } from '@react-native-community/picker'
+// import { Picker } from 'react-native'
+import DatePicker from 'react-native-date-picker';
 
 export default function SignUp() {
   // email, password 가져오기
-  const route = useRoute()
-  const route_json = JSON.stringify(route, null, 2)
-  const email = JSON.parse(route_json).params.user_email
-  const password = JSON.parse(route_json).params.password
-  const [name, setname] = useState<string>('')
-  const [gender, setgender] = useState<string>('')
+  const route = useRoute();
+  const route_json = JSON.stringify(route, null, 2);
+  const email = JSON.parse(route_json).params.user_email;
+  const password = JSON.parse(route_json).params.password;
+  const [name, setname] = useState<string>('');
+  const [gender, setgender] = useState<string>('');
 
-  //   const confirm1 = false
-  //   const confirm2 = false
-  //   const gender_c = () => console.log('gender :',gender)
-
+  const [user_date, setDate] = useState(new Date());
 
   // 일치 검사
-  const [confirm1, setConfirm1] = useState(false)
-  const [confirm2, setConfirm2] = useState(true)
-  const [confirm3, setConfirm3] = useState(true)
+  const [confirm1, setConfirm1] = useState(false);
+  const [confirm2, setConfirm2] = useState(true);
+  const [confirm3, setConfirm3] = useState(true);
 
-  const focus = useAutoFocus()
-  const navigation = useNavigation()
-  const goBack = () => navigation.navigate('SignUp', { user_email: email })
+  const navigation = useNavigation();
+  const goBack = () => navigation.navigate('SignUp', { user_email: email });
   const goFirst = () => {
-    setConfirm1(false)
-    setConfirm2(true)
-    setConfirm3(true)
-  }
+    setConfirm1(false);
+    setConfirm2(true);
+    setConfirm3(true);
+  };
   const goSecond = () => {
-    setConfirm1(true)
-    setConfirm2(false)
-    setConfirm3(true)
-  }
+    setConfirm1(true);
+    setConfirm2(false);
+    setConfirm3(true);
+  };
   return (
     <SafeAreaView>
       <View style={[styles.view]}>
@@ -65,7 +66,7 @@ export default function SignUp() {
               onPress={goSecond}
               style={[styles_confirm(!confirm3).icon]}
             />
-            <Text style={[styles.text_signup]}>회원가입</Text>
+            {/* <Text style={[styles.text_signup]}>회원가입</Text> */}
           </View>
 
           {/* 1. 닉네임 */}
@@ -73,14 +74,14 @@ export default function SignUp() {
             <Text style={[styles.text]}>닉네임을 입력해주세요.</Text>
             <View style={[styles.textInputView]}>
               <TextInput
-                style={[styles.textInput, styles_confirm(name != '').textInput]}
+                style={[styles.textInput, styles_confirm(name !== '').textInput]}
                 placeholder={'닉네임'}
                 placeholderTextColor="grey"
                 value={name}
                 onChangeText={setname}
                 onEndEditing={() => {
-                  setConfirm1(true)
-                  setConfirm2(false)
+                  setConfirm1(true);
+                  setConfirm2(false);
                 }}
               />
             </View>
@@ -96,9 +97,11 @@ export default function SignUp() {
                 editable={false}
                 textAlign={'center'}
                 onPressIn={() => {
-                  setgender('M')
-                  setTimeout(() => setConfirm2(true), 2000)
-                  setTimeout(() => setConfirm3(false), 2000)
+                  setgender('M');
+                  setTimeout(() => {
+                    setConfirm2(true);
+                    setConfirm3(false);
+                  },500);
                 }}
               />
               <TextInput
@@ -107,9 +110,11 @@ export default function SignUp() {
                 editable={false}
                 textAlign={'center'}
                 onPressIn={() => {
-                  setgender('F')
-                  setTimeout(() => setConfirm2(true), 2000)
-                  setTimeout(() => setConfirm3(false), 2000)
+                  setgender('F');
+                  setTimeout(() => {
+                    setConfirm2(true);
+                    setConfirm3(false);
+                  },500);
                 }}
               />
             </View>
@@ -119,15 +124,27 @@ export default function SignUp() {
           <View style={[styles.view_middle, styles_confirm(confirm3).view_middle2]}>
             <Text style={[styles.text]}>생년월일을 선택해주세요.</Text>
             <View style={[styles.ageView]}>
-              {/* DateTimePicker() */}
+              <DatePicker
+                date={user_date}
+                onDateChange={setDate}
+                androidVariant="nativeAndroid"
+                locale="ko"
+                mode="date"
+              />
             </View>
             <TextInput
                 style={[styles.confirmBtn]}
-                value={'확 인'}
+                value={'완료'}
                 editable={false}
                 textAlign={'center'}
                 onPressIn={() => {
-                  const apiHost = getAPI()
+                  // range
+                  // const year = user_date.getFullYear()
+
+                  const month = user_date.getMonth() + 1;
+                  const birthday = (month <= 9 ? '0' + month : month) + '-' + user_date.getDate();
+
+                  const apiHost = getAPI();
                   fetch(apiHost + '/api/v4/accounts/signup', {
                     method: 'POST',
                     headers: {
@@ -139,27 +156,26 @@ export default function SignUp() {
                       password: password,
                       name: name,
                       gender: gender,
-                      birthday: '1999-03-12',
+                      birthday: birthday,
                     }),
                   })
                     .then(response => response.json())
                     .then(response => {
-                      console.log(response)
-                      // console.log('(',typeof email,') email :',email)
-                      // console.log('(',typeof password,') email :',password)
-                      // console.log('(',typeof name,') email :',name)
-                      // console.log('(',typeof gender,') email :',gender)
+                      console.log(response);
+                      if (response === true) {
+                        navigation.navigate('SignUp', { user_email: email });
+                      }
                     })
                     .catch(function (error) {
-                      console.log(error)
-                    })
+                      console.log(error);
+                    });
                 }}
               />
           </View>
         </AutoFocusProvider>
       </View>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -168,26 +184,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'white',
-    // backgroundColor: 'purple',
   },
 
   keyboardAwareFocus: {
     flex: 1,
     padding: 5,
     alignItems: 'center',
-    // justifyContent: 'center',
   },
 
   // ----- 0. 헤더 -----
   view_header: {
     backgroundColor: 'white',
-    // backgroundColor: 'red',
     width: '90%',
-    // alignSelf: 'center',
     height: '7%',
-    // justifyContent: 'center',
     flexDirection: 'row',
     alignContent: 'flex-start',
+    top:'5%',
   },
   // 돌아가기 아이콘
   icon: {
@@ -196,13 +208,13 @@ const styles = StyleSheet.create({
     width: '15%',
   },
   // 회원가입 Text
-  text_signup: {
-    fontSize: Platform.OS === 'ios' ? 20 : 18,
-    color: '#707070',
-    alignSelf: 'center',
-    left: '150%',
-    top: '-1%',
-  },
+  // text_signup: {
+  //   fontSize: Platform.OS === 'ios' ? 20 : 18,
+  //   color: '#707070',
+  //   alignSelf: 'center',
+  //   // left: '-300%',
+  //   // top: '-1%',
+  // },
 
   // ----- 1. middle -----
   // visible
@@ -260,8 +272,10 @@ const styles = StyleSheet.create({
   // ----- 1_3. 나이 -----
   ageView: {
     backgroundColor: 'white',
+    // backgroundColor: 'purple',
     width: '100%',
-    height: '50%',
+    height: '40%',
+    top: '3%',
   },
   confirmBtn: {
     width: '85%',
@@ -269,15 +283,21 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#A2D9D6',
     color: 'white',
-    fontSize: 25,
+    fontSize: Platform.OS === 'ios' ? 25 : 20,
     borderColor: 'white',
     borderRadius: 10,
+    top: '-3%',
   },
-})
+  datePicker: {
+    width: '150%',
+    height: '100%',
+  },
+  
+});
 
 const styles_confirm = (booleanValue: boolean) => StyleSheet.create({
   textInput: {
-    borderBottomColor: booleanValue === true ? '#A2D9D6' : 'grey'
+    borderBottomColor: booleanValue === true ? '#A2D9D6' : 'grey',
   },
   view_middle2: {
     opacity: booleanValue === true ? 0 : 1,
@@ -295,4 +315,4 @@ const styles_confirm = (booleanValue: boolean) => StyleSheet.create({
     opacity: booleanValue === false ? 0 : 1,
     width: booleanValue === false ? 0 : '90%',
   },
-})
+});

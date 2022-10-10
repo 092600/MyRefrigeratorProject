@@ -1,40 +1,41 @@
-/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-sequences */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useCallback} from 'react'
-import {StyleSheet, Platform, ImageBackground, Alert} from 'react-native'
-import {useNavigation, useRoute} from '@react-navigation/native'
+import React, {useState, useCallback} from 'react';
+import {StyleSheet, Platform, ImageBackground, Alert} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 // prettier-ignore
 import {SafeAreaView, View, Text, TextInput}
-from '../theme'
+from '../theme';
 // import * as D from '../data'
-import {useAutoFocus, AutoFocusProvider} from '../contexts'
-import {MaterialCommunityIcon as Icon} from '../theme'
+import {useAutoFocus, AutoFocusProvider} from '../contexts';
+import {MaterialCommunityIcon as Icon} from '../theme';
 
 export default function SignUp() {
   // email 가져오기
-  const route = useRoute()
-  const route_json = JSON.stringify(route, null, 2)
-  const email = JSON.parse(route_json).params.user_email
+  const route = useRoute();
+  const route_json = JSON.stringify(route, null, 2);
+  const email = JSON.parse(route_json).params.user_email;
 
-  const [password, setPassword] = useState<string>('')
-  const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
 
   // 일치 검사
-  const [confirm, setConfirm] = useState(false)
+  const [confirm, setConfirm] = useState(false);
 
-  const focus = useAutoFocus()
-  const navigation = useNavigation()
-  const goFirst = useCallback(() => navigation.navigate('Login0'), []) 
+  const focus = useAutoFocus();
+  const navigation = useNavigation();
+  const goFirst = useCallback(() => navigation.navigate('Login0'), []);
 
   const goNextSignUp = () => {
     // email, password 가지고 nextSignup 이동
     if (password === confirmPassword) {
-      navigation.navigate('SignUp2', {user_email: email, password: password}), []
+      navigation.navigate('SignUp2', {user_email: email, password: password}), [];
     } else {
-      Alert.alert('비밀번호가 일치하지 않습니다.')
+      Alert.alert('비밀번호가 일치하지 않습니다.');
     }
-  }
+  };
 
   return (
     <SafeAreaView>
@@ -87,18 +88,26 @@ export default function SignUp() {
             <View style={[styles.textInputView]}>
               <TextInput
                 secureTextEntry
-                onFocus={focus}
+                onFocus={() => {
+                    focus;
+                    if (password !== '') {
+                      setConfirm(false);
+                    }
+                  }
+                }
                 style={[styles.textInput, styles_confirm(confirm).textInputFocus]}
                 value={password}
                 onChangeText={setPassword}
                 placeholder="비밀번호를 입력해주세요."
                 placeholderTextColor={'grey'}
                 onEndEditing={() => {
-                  setConfirm(true)
+                  setConfirm(true);
                 }}
               />
               <View style={[styles.confirmImage, styles_confirm(confirm).confirmImage]}>
                 <ImageBackground
+                  // source={password === '' ? require('../assets/images/confirm.png') : require('../assets/images/cancle.png')}
+                  // source = (password !== '') ? {require('../assets/images/confirm.png')}
                   source={require('../assets/images/confirm.png')}
                   resizeMode="contain"
                   style={styles.image}
@@ -128,7 +137,7 @@ export default function SignUp() {
                   source={password === confirmPassword ? require('../assets/images/confirm.png') : require('../assets/images/cancle.png')}
                   resizeMode="contain"
                   style={
-                    [styles.image, styles_confirm(confirmPassword != '').confirmImage]
+                    [styles.image, styles_confirm(confirmPassword !== '').confirmImage]
                   }
                 />
               </View>
@@ -138,7 +147,7 @@ export default function SignUp() {
         </AutoFocusProvider>
       </View>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -266,8 +275,8 @@ const styles = StyleSheet.create({
   },
   textInputUnvi: {
     opacity: 0,
-  }
-})
+  },
+});
 
 const styles_confirm = (confirm: boolean) => StyleSheet.create({
   // 컨펌 이미지
@@ -283,5 +292,5 @@ const styles_confirm = (confirm: boolean) => StyleSheet.create({
   textInputFocus: {
     borderColor: confirm === true ? 'grey' : '#A2D9D6',
   },
-})
+});
 

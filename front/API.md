@@ -10,8 +10,9 @@
 
 
 - **이메일 확인 API**
+  - **설명** : 유저가 입력한 이메일('email')이 이미 user테이블에 가입되어 있다면 로그인 화면으로, 가입되어있지않다면 회원가입 화면으로 보내주는 API
   - **method** : POST
-  - **Parameter** : user_email
+  - **Parameter** : email
   - **result** 
     - 0 | `"Login"` : 로그인
     - 1 | `"Signup"` : 회원가입 
