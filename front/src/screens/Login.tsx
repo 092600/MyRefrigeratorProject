@@ -26,8 +26,8 @@ export default function Login() {
     [],
   )
   // const route = useRoute()
-  const goFindId = useCallback(() => navigation.navigate('FindID'), [])
-  const goFindPW = useCallback(() => navigation.navigate('FindPW'), [])
+  const goFindId = useCallback(() => navigation.navigate('FindID', {backPage: 'Login'}), [])
+  const goFindPW = useCallback(() => navigation.navigate('FindPW', {backPage: 'Login'}), [])
   const goSignup = useCallback(
     () => navigation.navigate('SignUp', {user_email: email}),
     [],

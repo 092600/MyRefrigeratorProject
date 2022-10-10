@@ -1,44 +1,46 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useCallback} from 'react'
+import React, {useState, useCallback} from 'react';
 import {
   StyleSheet,
   Platform,
   ImageBackground,
   TouchableOpacity,
   Alert,
-} from 'react-native'
-import {useNavigation} from '@react-navigation/native'
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 // prettier-ignore
 import {SafeAreaView, View, Text, TextInput, TouchableView}
-from '../theme'
-import * as D from '../data'
-import {useAutoFocus, AutoFocusProvider} from '../contexts'
-import {MaterialCommunityIcon as Icon} from '../theme'
+from '../theme';
+import * as D from '../data';
+import {useAutoFocus, AutoFocusProvider} from '../contexts';
+import {MaterialCommunityIcon as Icon} from '../theme';
 
 export default function Login() {
-  const [Email, setEmail] = useState<string>('')
+  const [email, setEmail] = useState<string>('');
   // const [person, setPerson] = useState()
-  const focus = useAutoFocus()
+  const focus = useAutoFocus();
+
   // Navigation (이전버튼(WalkThrought)/아이디찾기/비밀번호찾기/로그인)
-  const navigation = useNavigation()
-  const goFindId = useCallback(() => navigation.navigate('FindID'), [])
-  const goFindPW = useCallback(() => navigation.navigate('FindPW'), [])
-  const goWT = useCallback(() => navigation.navigate('WalkThrough'), [])
+  const navigation = useNavigation();
+  const goFindId = useCallback(() => navigation.navigate('FindID', {backPage: 'Login0'}), []);
+  const goFindPW = useCallback(() => navigation.navigate('FindPW', {backPage: 'Login0'}), []);
+  const goWT = useCallback(() => navigation.navigate('WalkThrough'), []);
   // const goLogin = useCallback(
   //   () => navigation.navigate('Login', {user_email: Email}),
   //   [],
   // )
   const goSignup = useCallback(
-    () => navigation.navigate('SignUp', {user_email: Email}),
+    () => navigation.navigate('SignUp', {user_email: email}),
     [],
-  )
+  );
 
   // 이메일 확인용 정규식
   const reg_email =
-    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
+    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
   return (
     <SafeAreaView>
@@ -67,7 +69,7 @@ export default function Login() {
             <TextInput
               onFocus={focus}
               style={[styles.textInput]}
-              value={Email}
+              value={email}
               onChangeText={setEmail}
               placeholder="enter your email"
               placeholderTextColor={'grey'}
@@ -80,15 +82,15 @@ export default function Login() {
             style={[styles.confirmImage]}
             onPress={() => {
               // 1. 이메일이 공백일 때
-              if (Email === '') {
-                Alert.alert('이메일을 입력해주세요.')
+              if (email === '') {
+                Alert.alert('이메일을 입력해주세요.');
                 // 2. 이메일 형식이 아닐때
-              } else if (!reg_email.test(Email)) {
-                Alert.alert('이메일 형식이 아닙니다.')
+              } else if (!reg_email.test(email)) {
+                Alert.alert('이메일 형식이 아닙니다.');
                 // 3. 조건 충족 후 로그인/회원가입 가르기
                 // fetch() 이후 결과로 로그인/회원가입
               } else {
-                navigation.navigate('Login', {user_email: Email})
+                navigation.navigate('Login', {user_email: email});
               }
             }}>
             <ImageBackground
@@ -143,7 +145,7 @@ export default function Login() {
         </AutoFocusProvider>
       </View>
     </SafeAreaView>
-  )
+  );
 }
 const styles = StyleSheet.create({
   view: {
@@ -289,4 +291,4 @@ const styles = StyleSheet.create({
     height: '100%',
     // justifyContent: 'center',
   },
-})
+});

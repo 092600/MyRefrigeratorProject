@@ -9,7 +9,7 @@ declare namespace ReactNavigation {
     SignUp2: {user_email: string; password: string}
     Login0: undefined
     WalkThrough: undefined
-    FindID: undefined
-    FindPW: undefined
+    FindID: {backPage: string}
+    FindPW: {backPage: string}
   }
 }
