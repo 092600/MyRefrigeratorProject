@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequiredArgsConstructor
 @RestController
 public class MainController {
-
+    @RequestMapping("/")
+    public String index(){
+        return "test";
+    }
 
 }

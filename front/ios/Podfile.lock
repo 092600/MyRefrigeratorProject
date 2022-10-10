@@ -378,13 +378,10 @@ PODS:
     - React-perflogger (= 0.70.1)
   - RNCMaskedView (0.1.11):
     - React
-<<<<<<< Updated upstream
-=======
   - RNCPicker (2.4.6):
     - React-Core
   - RNDateTimePicker (6.5.0):
     - React-Core
->>>>>>> Stashed changes
   - RNGestureHandler (2.6.2):
     - React-Core
   - RNReanimated (2.10.0):
@@ -486,11 +483,8 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
-<<<<<<< Updated upstream
-=======
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
->>>>>>> Stashed changes
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -588,13 +582,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
-<<<<<<< Updated upstream
-=======
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
->>>>>>> Stashed changes
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -656,11 +647,8 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: a11d0c2e14140baf1e449264ca9168ae9ae6bbd0
   ReactCommon: 7f86326b92009925c6dcf93f8e825060171c379f
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
-<<<<<<< Updated upstream
-=======
   RNCPicker: 2f71e09c52ab6327e2c393213368ea0e5bfbcb65
   RNDateTimePicker: 154f8246e9c32fd663995647a7f9f667a8c6b258
->>>>>>> Stashed changes
   RNGestureHandler: 4defbd70b2faf3d6761b82fa7880285241762cb0
   RNReanimated: 60e291d42c77752a0f6d6f358387bdf225a87c6e
   RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9

@@ -1,11 +1,12 @@
 package com.myrefrigerator.myrefrigerator.controllers;
 
+import com.myrefrigerator.myrefrigerator.config.oauth2Config.oauth2Dto.SessionUser;
 import com.myrefrigerator.myrefrigerator.domain.user.User;
 import com.myrefrigerator.myrefrigerator.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,8 +15,22 @@ import java.util.Arrays;
 @RequestMapping("/api/v4/accounts")
 public class AccountsApiController {
     private final UserService userService;
+    private final HttpSession httpSession;
 
-
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public boolean login(@RequestBody User user){
+        if (userService.isExistUserEmail(user.getEmail())){
+            User findUser = userService.findByUserEmail(user.getEmail());
+            if (userService.stringMatcher(user, findUser)){
+                httpSession.setAttribute("user", new SessionUser(findUser));
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -56,22 +71,33 @@ public class AccountsApiController {
     public ArrayList<String> findEmail(@RequestBody User user,
                                        ArrayList<String> certifiationList){
         String email = user.getEmail();
+        System.out.println(user.getName());
 
-        if (userService.isExistUserEmail(email)){
-            try {
-                int certificationNumber = userService.certificateUserForUserEmail(email);
-                certifiationList = new ArrayList<String>(
-                        Arrays.asList(String.valueOf(userService.isExistUserEmail(email)), String.valueOf(certificationNumber)));
-            } catch (Exception e){
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+        if (userService.isExistUserEmail(email)) {
+            User findUser = userService.findByUserEmail(email);
+            if (findUser.getName().equals(user.getName())) {
+                try {
+                    int certificationNumber = userService.certificateUserForUserEmail(email);
+                    certifiationList = new ArrayList<String>(
+                            Arrays.asList(String.valueOf(userService.isExistUserEmail(email)), String.valueOf(certificationNumber)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
 
+                    certifiationList = new ArrayList<String>(
+                            Arrays.asList(String.valueOf(false), String.valueOf(0)));
+                } finally {
+                    return certifiationList;
+                }
+            } else {
                 certifiationList = new ArrayList<String>(
                         Arrays.asList(String.valueOf(false), String.valueOf(0)));
-            } finally {
+
                 return certifiationList;
             }
         } else {
+            certifiationList = new ArrayList<String>(
+                    Arrays.asList(String.valueOf(false), String.valueOf(0)));
             return certifiationList;
         }
     }

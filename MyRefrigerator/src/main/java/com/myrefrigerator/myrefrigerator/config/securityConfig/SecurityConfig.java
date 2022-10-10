@@ -2,6 +2,7 @@ package com.myrefrigerator.myrefrigerator.config.securityConfig;
 
 import com.myrefrigerator.myrefrigerator.config.oauth2Config.CustomOAuth2UserService;
 import com.myrefrigerator.myrefrigerator.config.securityConfig.accountsSecurity.CustomLoginFailureHandler;
+import com.myrefrigerator.myrefrigerator.config.securityConfig.accountsSecurity.CustomLoginSuccessHandler;
 import com.myrefrigerator.myrefrigerator.domain.user.security.SecurityUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final SecurityUserService securityUserService;
+
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     private final CustomLoginFailureHandler customLoginFailureHandler;
 
@@ -54,14 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-            .and()
-                .formLogin()
-                .loginPage("/accounts/login")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .loginProcessingUrl("/api/v4/accounts/login")
-                .failureHandler(customLoginFailureHandler)
-                .defaultSuccessUrl("/")
+            // .and()
+                // .formLogin()
+                // .loginPage("/accounts/login")
+                // .usernameParameter("email")
+                // .passwordParameter("password")
+                // .loginProcessingUrl("/api/v4/accounts/login")
+                // .successHandler(customLoginSuccessHandler)
+                // .failureHandler(customLoginFailureHandler)
+                // .defaultSuccessUrl("http://localhost:3000/", true)
             .and()
                 .oauth2Login()
                 .loginPage("/accounts/login")
@@ -69,9 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/")
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService);
-
-        // js, css, image 등의 파일
-
     }
 
     public void configure(WebSecurity web) throws Exception {
