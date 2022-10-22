@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface TokenRepository extends JpaRepository<Token, Long> {
     public Token findTokenByUserEmail(String userEmail);
+    public boolean existsByUserEmail(String userEmail);
 
 //    @Modifying(clearAutomatically = true)
 //    @Query("UPDATE User u SET u.password = :password where u.email = :email")

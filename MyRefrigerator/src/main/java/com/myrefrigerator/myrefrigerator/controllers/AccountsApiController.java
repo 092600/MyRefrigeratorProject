@@ -15,7 +15,6 @@ import com.myrefrigerator.myrefrigerator.domain.user.UserService;
 @RequestMapping("/api/v4/accounts")
 public class AccountsApiController {
     private final UserService userService;
-    private final HttpSession httpSession;
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public boolean signUp(@RequestBody User user){

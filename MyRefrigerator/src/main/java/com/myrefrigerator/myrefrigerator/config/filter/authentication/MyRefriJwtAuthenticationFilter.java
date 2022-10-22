@@ -1,12 +1,11 @@
 package com.myrefrigerator.myrefrigerator.config.filter.authentication;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myrefrigerator.myrefrigerator.config.domain.jwt.MyRefriJwtTokenProvider;
 import com.myrefrigerator.myrefrigerator.config.domain.user.MyRefriUserDetails;
 import com.myrefrigerator.myrefrigerator.config.handler.authentication.MyRefriAuthenticationFailureHandler;
-import com.myrefrigerator.myrefrigerator.config.manager.MyRefriAuthenticationManager;
-import com.myrefrigerator.myrefrigerator.domain.exception.MyRefriJwtSignatureException;
 import com.myrefrigerator.myrefrigerator.domain.exception.MyRefriMalformedJwtException;
+import com.myrefrigerator.myrefrigerator.domain.token.Token;
+import com.myrefrigerator.myrefrigerator.domain.token.TokenService;
 import com.myrefrigerator.myrefrigerator.domain.user.User;
 import com.myrefrigerator.myrefrigerator.domain.user.UserService;
 import io.jsonwebtoken.MalformedJwtException;
@@ -23,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @RequiredArgsConstructor
 public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -30,6 +30,7 @@ public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticati
     private final MyRefriJwtTokenProvider jwtTokenProvider;
     private final UserService userService;
     private final MyRefriAuthenticationFailureHandler authenticationFailureHandler = new MyRefriAuthenticationFailureHandler();
+    private final TokenService tokenService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -72,8 +73,27 @@ public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticati
         User user = userService.findByUserEmail(authResult.getName());
         MyRefriUserDetails myRefriUserDetails = new MyRefriUserDetails(user);
 
-        String jwtToken = jwtTokenProvider.createToken(myRefriUserDetails);
-        response.setHeader("Authorization", "Bearer "+jwtToken);
+        PrintWriter pw = response.getWriter();
+
+        Token token = new Token();
+        token.setUserEmail(user.getEmail());
+        System.out.println(tokenService.existsByUserEmail(user.getEmail()));
+        if (!tokenService.existsByUserEmail(user.getEmail())){
+            String jwtToken = jwtTokenProvider.createToken(myRefriUserDetails);
+            response.setHeader("Authorization", "Bearer "+jwtToken);
+
+            token.setJwt_token(jwtToken);
+
+            if (tokenService.saveToken(token)) {
+                pw.print("토큰이 정상적으로 발급되었습니다.");
+            }
+        } else {
+            String jwtToken = tokenService.updateToken(token, myRefriUserDetails);
+            response.setHeader("Authorization", "Bearer "+jwtToken);
+
+            pw.print("토큰이 정상적으로 발급되었습니다.");
+        }
+//        pw.println("토큰이 정상적으로 발급되었습니다.");
     }
 
 

@@ -56,11 +56,11 @@ public class Oauth2ApiController {
 
             } else {
                 User findUser = userService.findByUserEmail(u.getEmail());
-                MyRefriUserDetails findU = new MyRefriUserDetails(findUser);
+                MyRefriUserDetails findUserDetails = new MyRefriUserDetails(findUser);
 
-                String jwtToken = tokenService.updateToken(token, findU);
+                String jwtToken = tokenService.updateToken(token, findUserDetails);
 
-                Authentication authentication = myRefriJwtTokenProvider.getAuthentication(findU);
+                Authentication authentication = myRefriJwtTokenProvider.getAuthentication(findUserDetails);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 response.setHeader("Authorization", "Bearer "+jwtToken);

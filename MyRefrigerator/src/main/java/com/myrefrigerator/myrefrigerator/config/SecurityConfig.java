@@ -5,18 +5,13 @@ import com.myrefrigerator.myrefrigerator.config.domain.user.MyRefriUserDetailsSe
 import com.myrefrigerator.myrefrigerator.config.filter.authentication.MyRefriJwtAuthenticationFilter;
 import com.myrefrigerator.myrefrigerator.config.filter.authentication.MyRefriJwtAuthorizationFilter;
 import com.myrefrigerator.myrefrigerator.config.handler.authentication.MyRefriAuthenticationFailureHandler;
-import com.myrefrigerator.myrefrigerator.config.manager.MyRefriAuthenticationManager;
+import com.myrefrigerator.myrefrigerator.config.manager.authentication.MyRefriAuthenticationManager;
+import com.myrefrigerator.myrefrigerator.domain.token.TokenService;
 import com.myrefrigerator.myrefrigerator.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationDetailsSource;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,18 +19,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-import javax.servlet.http.HttpServletRequest;
-
-@Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final MyRefriAuthenticationFailureHandler myRefriAuthenticationFailureHandler;
     private final CorsFilter corsFilter;
     private final MyRefriJwtTokenProvider myRefriJwtTokenProvider;
     private final MyRefriAuthenticationManager myRefriAuthenticationManager;
     private final UserService userService;
+    private final TokenService tokenService;
     private final MyRefriUserDetailsService myRefriUserDetailsService;
     private final PasswordEncoder passwordEncoder;
 
@@ -49,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilter(corsFilter)
-                .addFilter(new MyRefriJwtAuthenticationFilter(myRefriAuthenticationManager, myRefriJwtTokenProvider, userService))
+                .addFilter(new MyRefriJwtAuthenticationFilter(myRefriAuthenticationManager, myRefriJwtTokenProvider, userService, tokenService))
                 .addFilter(new MyRefriJwtAuthorizationFilter(myRefriAuthenticationManager, myRefriJwtTokenProvider, userService));
 
         http
@@ -79,5 +74,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/favicon.ico", "/resources/**", "/error",
                         "/templates/**", "/js/**", "/jq/**");
     }
+
+//    @Bean(name = "mvcHandlerMappingIntrospector")
+//    public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
+//        return new HandlerMappingIntrospector();
+//    }
 
 }

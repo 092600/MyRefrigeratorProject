@@ -1,4 +1,4 @@
-package com.myrefrigerator.myrefrigerator.config.manager;
+package com.myrefrigerator.myrefrigerator.config.manager.authentication;
 
 import com.myrefrigerator.myrefrigerator.config.domain.user.MyRefriUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
