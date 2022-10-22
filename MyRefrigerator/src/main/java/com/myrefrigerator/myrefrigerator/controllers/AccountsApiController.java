@@ -1,14 +1,14 @@
 package com.myrefrigerator.myrefrigerator.controllers;
 
-import com.myrefrigerator.myrefrigerator.config.oauth2Config.oauth2Dto.SessionUser;
-import com.myrefrigerator.myrefrigerator.domain.user.User;
-import com.myrefrigerator.myrefrigerator.domain.user.UserService;
+import java.util.Arrays;
+import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.myrefrigerator.myrefrigerator.domain.user.User;
+import com.myrefrigerator.myrefrigerator.domain.user.UserService;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,22 +16,6 @@ import java.util.Arrays;
 public class AccountsApiController {
     private final UserService userService;
     private final HttpSession httpSession;
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public boolean login(@RequestBody User user){
-        if (userService.isExistUserEmail(user.getEmail())){
-            User findUser = userService.findByUserEmail(user.getEmail());
-            if (userService.stringMatcher(user, findUser)){
-                httpSession.setAttribute("user", new SessionUser(findUser));
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public boolean signUp(@RequestBody User user){

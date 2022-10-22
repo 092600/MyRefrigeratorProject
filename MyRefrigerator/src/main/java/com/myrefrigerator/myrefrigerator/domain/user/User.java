@@ -17,7 +17,10 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long user_id;
+
+    @Column
+    private String id;
 
     @Column(nullable = false)
     private String name;
@@ -38,7 +41,7 @@ public class User {
     private String birthday;
 
     @Column
-    private String picture;
+    private String profile_image;
 
     private int isSocial;
 
@@ -50,14 +53,14 @@ public class User {
     @Builder
     public User(String name, String email,
                 String gender, String age_ragne, String birthday,
-                String picture, UserRole role, int isSocial){
+                String profile_image, int isSocial){
         this.name = name;
         this.email = email;
         this.gender = gender;
         this.age_range = age_ragne;
         this.birthday = birthday;
-        this.picture = picture;
-        this.role = role;
+        this.profile_image = profile_image;
+        this.role = UserRole.USER;
         this.isSocial = isSocial;
     }
 
@@ -74,7 +77,7 @@ public class User {
 
     public User update(String name, String picture){
         this.name = name;
-        this.picture = picture;
+        this.profile_image = profile_image;
 
         return this;
     }

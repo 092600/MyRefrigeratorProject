@@ -1,29 +1,26 @@
-package com.myrefrigerator.myrefrigerator.domain.user.security;
+package com.myrefrigerator.myrefrigerator.config.domain.user;
 
 import com.myrefrigerator.myrefrigerator.domain.user.User;
-import com.myrefrigerator.myrefrigerator.domain.user.UserService;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Getter
-@Setter
-public class SecurityUser implements UserDetails {
-    @Autowired
-    private UserService userService;
+@Data
+public class MyRefriUserDetails implements UserDetails {
+
     private User user;
 
-    public SecurityUser(User user){
+    public MyRefriUserDetails(User user){
         this.user = user;
     }
 
+    public User getUser() {
+        return user;
+    }
 
-    // 해당 유저의 권한을 리턴하는 곳
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect = new ArrayList<>();
@@ -44,7 +41,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getName();
+        return user.getEmail();
     }
 
     @Override

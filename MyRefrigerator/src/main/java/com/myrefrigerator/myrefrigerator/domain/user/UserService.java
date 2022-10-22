@@ -29,6 +29,17 @@ public class UserService {
     }
 
     @Transactional
+    public boolean signUpSocial(User user){
+        try {
+            userRepository.save(user);
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Transactional
     public boolean signUp(User user){
         user = encodingPassword(user);
         try {
