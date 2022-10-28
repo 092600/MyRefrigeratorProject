@@ -15,17 +15,26 @@ import LoginNavigation from './LoginNavigator'
 import MyNavigation from './Home/MyNavigation'
 import {createStackNavigator} from '@react-navigation/stack'
 import MyDetail from './Home/MyDetail'
-import Login from './Login'
 
 type TabBarIconProps = {focused: boolean; color: string; size: number}
 const icons: Record<string, string[]> = {
-  MyHome: ['fridge', 'fridge-outline'],
+  MyRefri: ['fridge', 'fridge-outline'],
   Recipe: ['bowl-mix', 'bowl-mix-outline'],
   MyPage: ['account', 'account-outline'],
   MyFreezer: ['plus', 'plus-outline'],
 }
 
 const Tab = createBottomTabNavigator()
+
+// const HomeStack = createStackNavigator()
+// function HomeStackScreen() {
+//   return (
+//     <HomeStack.Navigator screenOptions={{headerShown: false}}>
+//       <HomeStack.Screen name="Home" component={MyRefri} />
+//       <HomeStack.Screen name="MyDetail" component={MyDetail} />
+//     </HomeStack.Navigator>
+//   )
+// }
 
 export default function MainNavigator() {
   const navigation = useNavigation()
@@ -42,11 +51,19 @@ export default function MainNavigator() {
         const focusedColor = focused ? '#A2D9D6' : color
         const [icon, iconOutline] = icons[name]
         const iconName = focused ? icon : iconOutline
-        return <Icon name={iconName} size={focusedSize} color={focusedColor} />
+        return (
+          <Icon
+            name={iconName}
+            size={focusedSize}
+            color={focusedColor}
+            // onPress={() => setMain(false)}
+          />
+        )
       },
     }
   }
 
+  // const naviagation = useNavigation()
   return (
     // BottomTabNavigator
     <Tab.Navigator initialRouteName="MyRefri" screenOptions={screenOptions}>
@@ -56,6 +73,9 @@ export default function MainNavigator() {
         component={Recipe}
         options={{
           tabBarShowLabel: false,
+          tabBarItemStyle: {
+            // backgroundColor: 'black',
+          },
           tabBarStyle: {
             backgroundColor: 'white',
           },
@@ -63,7 +83,7 @@ export default function MainNavigator() {
       />
       {/* 냉장고 버튼 */}
       <Tab.Screen
-        name="MyHome"
+        name="MyRefri"
         component={MyNavigation}
         // listeners={() => ({
         //   tabPress: e => {

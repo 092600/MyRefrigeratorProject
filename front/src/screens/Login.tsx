@@ -12,6 +12,7 @@ import * as D from '../data'
 import {useAutoFocus, AutoFocusProvider} from '../contexts'
 import {MaterialCommunityIcon as Icon} from '../theme'
 import getAPI from '../components/getAPI'
+import MainNavigator from './HomeNavigator'
 
 export default function Login() {
   const route = useRoute()
@@ -22,6 +23,10 @@ export default function Login() {
   const focus = useAutoFocus()
   const navigation = useNavigation()
   const goHomeNavigator = useCallback(
+    () => navigation.navigate('HomeNavigator'),
+    [],
+  )
+  const goTabNavigatior = useCallback(
     () => navigation.navigate('HomeNavigator'),
     [],
   )
@@ -93,15 +98,19 @@ export default function Login() {
                 }),
               })
                 .then(response => response.json())
-                .then(response => {
-                  console.log(response)
+                .then(result => {
+                  console.log(result)
+                  console.log('token:',result.Authorization)
+                  // if (result) {
+                    // console.log('result:', result)
+                    // 메인으로 이동
+                    // navigation.navigate('HomeNavigator')
+                  // }
                 })
                 .catch(function (error) {
-                  console.log(error)
+                  // console.log('error :',error)
                 })
 
-              // 메인으로 이동
-              // navigation.navigate('HomeNavigator')
             }}>
             <Text style={[styles.text]}>로 그 인</Text>
           </TouchableView>

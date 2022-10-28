@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {createContext, useContext, useState} from 'react'
 import type {FC} from 'react'
 
@@ -7,19 +8,21 @@ export type ScrollEnabledContextType = {
 }
 const defaultScrollEnabledContext = {
   scrollEnabled: true,
-  setScrollEnabled: (enable: boolean) => {}
+  setScrollEnabled: (enable: boolean) => {},
 }
 const ScrollEnabledContext = createContext<ScrollEnabledContextType>(
-  defaultScrollEnabledContext
+  defaultScrollEnabledContext,
 )
-type ScrollEnabledContextProps = {}
+type ScrollEnabledContextProps = {
+  children: any
+}
 export const ScrollEnabledProvider: FC<ScrollEnabledContextProps> = ({
-  children
+  children,
 }) => {
   const [scrollEnabled, setScrollEnabled] = useState<boolean>(true)
   const value = {
     scrollEnabled,
-    setScrollEnabled
+    setScrollEnabled,
   }
   return (
     <ScrollEnabledContext.Provider value={value}>
