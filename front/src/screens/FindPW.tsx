@@ -34,7 +34,7 @@ export default function FindPW() {
   const goFindPW = useCallback(() => navigation.navigate('FindPW', {backPage: backPage}), []);
   const goLogin = useCallback(() => navigation.navigate('Login0'), []);
 
-  console.log('(',Platform.OS,') emailSend:',emailSend)
+  // console.log('(',Platform.OS,') emailSend:',emailSend)
   // 이메일 확인용 정규식
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
@@ -50,7 +50,6 @@ export default function FindPW() {
               size={45}
               onPress={() => {
                 if (backPage === 'Login'){
-                  console.log(backPage)
                   navigation.navigate(backPage, {user_email: '이메일을 입력해주세요.'})
                 } else {
                   navigation.navigate(backPage)

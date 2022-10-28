@@ -36,9 +36,9 @@ export default function FindID() {
   const goFindId = useCallback(() => navigation.navigate('FindID', {backPage: backPage}), []);
   const goFindPW = useCallback(() => navigation.navigate('FindPW', {backPage: backPage}), []);
 
-  console.log('(',Platform.OS,') emailSend:',emailSend)
-  console.log('(',Platform.OS,') emailWrite:',emailWrite)
-  console.log('(',Platform.OS,') name:',name)
+  // console.log('(',Platform.OS,') emailSend:',emailSend)
+  // console.log('(',Platform.OS,') emailWrite:',emailWrite)
+  // console.log('(',Platform.OS,') name:',name)
   // console.log('emailSend === && emailWrite:', )
   // 이메일 확인용 정규식
   const reg_email =

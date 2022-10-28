@@ -86,7 +86,8 @@ export default function Login() {
             onPress={() => {
               // API
               const apiHost = getAPI()
-              fetch(apiHost + '/api/v4/accounts/login', {
+              // fetch(apiHost + '/api/v4/accounts/login', {
+              fetch(apiHost + '/login', {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/json',
@@ -98,9 +99,9 @@ export default function Login() {
                 }),
               })
                 .then(response => response.json())
-                .then(result => {
-                  console.log(result)
-                  console.log('token:',result.Authorization)
+                .then(response => {
+                  console.log(response)
+                  // console.log('token:',result.Authorization)
                   // if (result) {
                     // console.log('result:', result)
                     // 메인으로 이동

@@ -159,13 +159,14 @@ export default function SignUp2() {
                   })
                     .then(response => response.json())
                     .then(response => {
-                      console.log(response);
-                      if (response === true) {
-                        navigation.navigate('SignUp', { user_email: email });
-                      }
+                      console.log('response:',response);
+                      // console.log('response.json():',response.json());
+                      // if (response === true) {
+                        // navigation.navigate('SignUp', { user_email: email });
+                      // }
                     })
                     .catch(function (error) {
-                      console.log(error);
+                      console.log('error:',error);
                     });
                 }}
               />
