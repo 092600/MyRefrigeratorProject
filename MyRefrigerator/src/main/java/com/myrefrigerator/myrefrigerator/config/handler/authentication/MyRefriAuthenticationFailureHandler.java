@@ -44,6 +44,7 @@ public class MyRefriAuthenticationFailureHandler extends SimpleUrlAuthentication
         } else if (exception instanceof MyRefriJwtSignatureException){
             errorMessage = "신뢰할 수 없는 토큰입니다.";
         } else {
+            System.out.println(exception.getMessage());
             errorMessage = "알 수 없는 이유로 로그인에 실패하였습니다 관리자에게 문의하세요.";
         }
 

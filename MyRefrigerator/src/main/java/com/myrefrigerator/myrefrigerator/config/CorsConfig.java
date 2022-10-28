@@ -22,7 +22,7 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.addAllowedHeader(jwtHeader); // 'Authorization' 헤더 값을 받아온;
 
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/", config);
         return new CorsFilter(source);
     }
 }

@@ -1,5 +1,6 @@
 package com.myrefrigerator.myrefrigerator.config.filter.authentication;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myrefrigerator.myrefrigerator.config.domain.jwt.MyRefriJwtTokenProvider;
 import com.myrefrigerator.myrefrigerator.config.domain.user.MyRefriUserDetails;
 import com.myrefrigerator.myrefrigerator.config.handler.authentication.MyRefriAuthenticationFailureHandler;
@@ -16,13 +17,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
 public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -31,11 +36,24 @@ public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticati
     private final UserService userService;
     private final MyRefriAuthenticationFailureHandler authenticationFailureHandler = new MyRefriAuthenticationFailureHandler();
     private final TokenService tokenService;
+    private ObjectMapper om = new ObjectMapper();
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("email");
-        String password = request.getParameter("password");
+        ServletInputStream inputStream = null;
+        String username; String password;
+        try {
+            inputStream = request.getInputStream();
+            String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            User user = om.readValue(messageBody, User.class);
+
+            username = user.getEmail();
+            password = user.getPassword();
+            System.out.println(username);
+            System.out.println(password);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
