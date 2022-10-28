@@ -29,10 +29,10 @@ export default function Login() {
   const goFindId = useCallback(() => navigation.navigate('FindID', {backPage: 'Login0'}), []);
   const goFindPW = useCallback(() => navigation.navigate('FindPW', {backPage: 'Login0'}), []);
   const goWT = useCallback(() => navigation.navigate('WalkThrough'), []);
-  // const goLogin = useCallback(
-  //   () => navigation.navigate('Login', {user_email: Email}),
-  //   [],
-  // )
+  const goHomeNavigator = useCallback(
+    () => navigation.navigate('HomeNavigator'),
+    [],
+  )
   const goSignup = useCallback(
     () => navigation.navigate('SignUp', {user_email: email}),
     [],
@@ -119,7 +119,7 @@ export default function Login() {
           </View>
 
           {/* 소셜 로그인 */}
-          <View border style={[styles.view_social]}>
+          <TouchableOpacity style={[styles.view_social]} onPress={goHomeNavigator}>
             <Text style={[styles.text_social]}> 간편하게 시작하기</Text>
             <View style={[styles.social_group]}>
               <View border style={[styles.social]}>
@@ -141,7 +141,7 @@ export default function Login() {
                 />
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </AutoFocusProvider>
       </View>
     </SafeAreaView>

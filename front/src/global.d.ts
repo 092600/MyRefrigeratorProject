@@ -11,5 +11,10 @@ declare namespace ReactNavigation {
     WalkThrough: undefined
     FindID: {backPage: string}
     FindPW: {backPage: string}
+    MyRefri: undefined
+    Recipe: undefined
+    MyDetail: undefined
+    Upload: undefined
+    // TabNavigator: undefined
   }
 }

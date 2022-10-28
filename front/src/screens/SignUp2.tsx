@@ -7,14 +7,9 @@ import { SafeAreaView, View, Text, TextInput } from '../theme';
 import { useAutoFocus, AutoFocusProvider } from '../contexts';
 import { MaterialCommunityIcon as Icon } from '../theme';
 import getAPI from '../components/getAPI';
-// import { Picker } from '@react-native-picker/picker';
-// import { Picker } from '@react-native-picker/picker';
-// import {Picker} from '@react-native-picker/picker';
-// import { Picker } from '@react-native-community/picker'
-// import { Picker } from 'react-native'
 import DatePicker from 'react-native-date-picker';
 
-export default function SignUp() {
+export default function SignUp2() {
   // email, password 가져오기
   const route = useRoute();
   const route_json = JSON.stringify(route, null, 2);
@@ -130,6 +125,9 @@ export default function SignUp() {
                 androidVariant="nativeAndroid"
                 locale="ko"
                 mode="date"
+                onCancel={() => {
+                  console.log('hi')
+                }}
               />
             </View>
             <TextInput

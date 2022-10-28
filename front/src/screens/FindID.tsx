@@ -18,6 +18,7 @@ import {SafeAreaView, View, Text, TextInput, TouchableView}
 from '../theme';
 import {useAutoFocus, AutoFocusProvider} from '../contexts';
 import {MaterialCommunityIcon as Icon} from '../theme';
+import getAPI from '../components/getAPI';
 
 export default function FindID() {
   const route = useRoute();
@@ -25,6 +26,8 @@ export default function FindID() {
   const backPage = JSON.parse(route_json).params.backPage;
 
   const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [emailWrite, setWrite] = useState<boolean>(false);
   const [emailSend, setSend] = useState<boolean>(false);
   const [code, setCode] = useState<string>('');
 
@@ -34,9 +37,13 @@ export default function FindID() {
   const goFindPW = useCallback(() => navigation.navigate('FindPW', {backPage: backPage}), []);
 
   console.log('(',Platform.OS,') emailSend:',emailSend)
+  console.log('(',Platform.OS,') emailWrite:',emailWrite)
+  console.log('(',Platform.OS,') name:',name)
+  // console.log('emailSend === && emailWrite:', )
   // 이메일 확인용 정규식
   const reg_email =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+  const apiHost = getAPI();
 
   return (
     <SafeAreaView>
@@ -80,14 +87,21 @@ export default function FindID() {
             <View style={[styles.middle_email]}>
               {/* 안내문 */}
               <View style={[styles.email_text]}>
-                {/* send = false  */}
-                <Text style={[styles_confrim(emailSend === true).email_text2]}>
+                {/* emailView 안내문 */}
+                <Text style={[styles_confrim(emailWrite === true).email_text2]}>
                   인증에 필요한 <Text style={[{fontWeight: '600'}]}>이메일 주소</Text>를 입력해주세요.
                   {'\n'}
                   입력한 이메일에 <Text style={[{fontWeight: '600'}]}>확인 코드</Text>를 보내드립니다.
                 </Text>
+
+                {/* nameView 안내문 */}
+                <Text style={[styles_confrim(emailWrite === emailSend).email_text3]}>
+                  인증에 필요한 <Text style={[{fontWeight: '600'}]}>이름</Text>을 입력해주세요.
+                </Text>
+
+                {/* codeView 안내문 */}
                 <Text style={[styles_confrim(emailSend === false).email_text3]}>
-                  입력한 이메일로 <Text style={[{fontWeight: '600'}]}>확인 코드</Text>를 보냈습니다.
+                  입력한 이메일로 보낸 <Text style={[{fontWeight: '600'}]}>확인 코드</Text>를 입력해주세요.
                 </Text>
               </View>
               {/* 이메일 입력 / 이미지 */}
@@ -97,7 +111,9 @@ export default function FindID() {
                   value={email}
                   onChangeText={(email) => {
                       setEmail(email)
+                      // 이메일 형식이 맞지 않는다면
                       if (reg_email.test(email) !== true) {
+                        setWrite(false)
                         setSend(false)
                       }
                     }
@@ -107,12 +123,90 @@ export default function FindID() {
                   onEndEditing={() => {
                    if (reg_email.test(email) !== true) {
                     Alert.alert('이메일 형식이 아닙니다.')
-                   } else {setSend(true)}
+                   } else {setWrite(true)}
                   }}
                 />
                 <TouchableOpacity 
                   style={[styles.email_img]}
-                  onPress={() => {setSend(true)}}>
+                  onPress={() => {setWrite(true)}}>
+                  <ImageBackground
+                    source = {emailWrite === true ? require('../assets/images/confirm.png') : require('../assets/images/next.png')}
+                    resizeMode="contain"
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              {/* 이름 입력 / 이미지 */}
+              <View style={[styles.email_input2, styles_confrim(emailWrite === false).input_text2]}>
+                <TextInput
+                  style={[styles.input_text,styles_confrim(name !== '').input_text]}
+                  value={name}
+                  onFocus={focus}
+                  onChangeText={(name) => {
+                    setName(name)
+                    if(name === '') setSend(false)
+                    else setWrite(true)
+                    }
+                  }
+                  placeholder={'이름을 입력해주세요.'}
+                  placeholderTextColor="grey"
+                  onEndEditing={() => {
+                    if (name === '') {
+                      setSend(false)
+                    } else {
+                      setSend(true)
+                      fetch(apiHost + '/api/v4/accounts/findEmail/checkEmail', {
+                        method: 'POST',
+                        headers: {
+                          'Accept': 'application/json',
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          name: name,
+                          email: email,
+                        }),
+                      })
+                        .then(response => response.json())
+                        .then(response => {
+                          console.log(response);
+                          // if (response === true) {
+                          //   // navigation.navigate('SignUp', { user_email: email });
+                          // }
+                        })
+                        .catch(function (error) {
+                          console.log(error);
+                        });
+                    }
+                  }}
+                />
+                <TouchableOpacity 
+                  style={[styles.email_img]}
+                  onPress={() => {
+                    setSend(true)
+                    fetch(apiHost + '/api/v4/accounts/findEmail/checkEmail', {
+                      method: 'POST',
+                      headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        name: name,
+                        email: email,
+                      }),
+                    })
+                      .then(response => response.json())
+                      .then(response => {
+                        console.log(response);
+                        // if (response === true) {
+                        //   // navigation.navigate('SignUp', { user_email: email });
+                        // }
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });
+                    }
+                  }>
                   <ImageBackground
                     source = {emailSend === true ? require('../assets/images/confirm.png') : require('../assets/images/next.png')}
                     resizeMode="contain"
@@ -120,6 +214,7 @@ export default function FindID() {
                   />
                 </TouchableOpacity>
               </View>
+
               {/* 확인코드 입력 / 이미지 */}
               <View style={[styles.email_code]}>
                 <TextInput
@@ -249,15 +344,22 @@ const styles = StyleSheet.create({
   },
   email_img: {
     backgroundColor: 'white',
-    width:'25%',
-    height:'65%',
-    top: '-60%',
+    width:'15%',
+    height:'60%',
+    top: '-50%',
     alignSelf:'flex-end',
-    left:'5%',
+    left:'-1%',
   },
   image: {
     width: '100%',
     height: '100%',
+  },
+  // 이름 입력
+  email_input2 : {
+    backgroundColor: 'white',
+    width: '100%',
+    height: '15%',
+    top: '0%',
   },
 
   // 확인 코드 입력 및 이미지

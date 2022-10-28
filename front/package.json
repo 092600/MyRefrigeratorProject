@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "moment-with-locales-es6": "^1.0.1",
     "react": "18.1.0",
+    "react-input-number": "^5.0.19",
     "react-native": "0.70.1",
     "react-native-date-picker": "^4.2.5",
     "react-native-gesture-handler": "^2.6.2",
