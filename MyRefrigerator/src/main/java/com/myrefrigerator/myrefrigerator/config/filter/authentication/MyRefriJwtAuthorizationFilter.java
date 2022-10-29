@@ -15,6 +15,7 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -22,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class MyRefriJwtAuthorizationFilter extends BasicAuthenticationFilter {
     private MyRefriJwtTokenProvider jwtTokenProvider;
@@ -102,10 +104,10 @@ public class MyRefriJwtAuthorizationFilter extends BasicAuthenticationFilter {
             errorMessage = "알 수 없는 이유로 로그인에 실패하였습니다 관리자에게 문의하세요.";
         }
 
-        ObjectMapper om = new ObjectMapper();
-
         response.setCharacterEncoding("utf-8");
-        om.writeValue(response.getWriter(), errorMessage);
+
+        PrintWriter pw = response.getWriter();
+        pw.print(errorMessage);
 
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 @Component
@@ -44,12 +46,13 @@ public class MyRefriAuthenticationFailureHandler extends SimpleUrlAuthentication
         } else if (exception instanceof MyRefriJwtSignatureException){
             errorMessage = "신뢰할 수 없는 토큰입니다.";
         } else {
-            System.out.println(exception.getMessage());
             errorMessage = "알 수 없는 이유로 로그인에 실패하였습니다 관리자에게 문의하세요.";
         }
 
         response.setCharacterEncoding("utf-8");
-        om.writeValue(response.getWriter(), errorMessage);
+
+        PrintWriter pw = response.getWriter();
+        pw.print(errorMessage);
     }
 
 }

@@ -49,8 +49,6 @@ public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticati
 
             username = user.getEmail();
             password = user.getPassword();
-            System.out.println(username);
-            System.out.println(password);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -95,7 +93,6 @@ public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticati
 
         Token token = new Token();
         token.setUserEmail(user.getEmail());
-        System.out.println(tokenService.existsByUserEmail(user.getEmail()));
         if (!tokenService.existsByUserEmail(user.getEmail())){
             String jwtToken = jwtTokenProvider.createToken(myRefriUserDetails);
             response.setHeader("Authorization", "Bearer "+jwtToken);
@@ -111,8 +108,5 @@ public class MyRefriJwtAuthenticationFilter extends UsernamePasswordAuthenticati
 
             pw.print("토큰이 정상적으로 발급되었습니다.");
         }
-//        pw.println("토큰이 정상적으로 발급되었습니다.");
     }
-
-
 }
